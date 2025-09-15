@@ -45,10 +45,10 @@ namespace BuoySensorManager.Services.Services
 
                         using (NetworkStream stream = client.GetStream())
                         {
-                            stream.Write(packet, 0, packet.Length);
+                            await stream.WriteAsync(packet, stoppingToken);
 
                             byte[] responseBuffer = new byte[8];
-                            int bytesRead = stream.Read(responseBuffer, 0, responseBuffer.Length);
+                            int bytesRead = await stream.ReadAsync(responseBuffer, stoppingToken);
 
                             if (bytesRead == 8)
                             {
@@ -60,7 +60,7 @@ namespace BuoySensorManager.Services.Services
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Error in OneSecondService");
+                    _logger.LogError(ex, "Error in BuoySensorReaderService");
                 }
 
                 await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
