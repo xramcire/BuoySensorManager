@@ -12,11 +12,11 @@ namespace BuoySensorManager.Core.Repositories
         /// <summary>
         /// Deletes anything older than the cutOff date.
         /// </summary>
-        int Delete(DateTime cutOff);
+        Task<int> Delete(DateTime cutOff);
 
         /// <summary>
         /// Creates the table if it does not already exist.
         /// </summary>
-        void Initialize();
+        Task Initialize();
     }
 }

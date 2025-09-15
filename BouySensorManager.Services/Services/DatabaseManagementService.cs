@@ -20,7 +20,7 @@ namespace BuoySensorManager.Services.Services
 
         public override async Task StartAsync(CancellationToken cancellationToken)
         {
-            _buoyPacketRepository.Initialize();
+            await _buoyPacketRepository.Initialize();
             await base.StartAsync(cancellationToken);
         }
 

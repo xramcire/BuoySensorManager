@@ -29,16 +29,16 @@ namespace BuoySensorManager.Core.Repositories
             }
         }
 
-        public int Delete(DateTime cutOff)
+        public Task<int> Delete(DateTime cutOff)
         {
             throw new NotImplementedException();
         }
 
-        public void Initialize()
+        public async Task Initialize()
         {
             try
             {
-                base.Execute(createTable);
+                await base.ExecuteAsync(createTable);
             }
             catch (Exception ex)
             {

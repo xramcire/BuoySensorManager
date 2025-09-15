@@ -12,9 +12,9 @@ namespace BuoySensorManager.Core.Repositories
             _connection = connection;
         }
 
-        protected int Execute(string query)
+        protected Task<int> ExecuteAsync(string query)
         {
-            return _connection.Execute(query);
+            return _connection.ExecuteAsync(query);
         }
 
         protected Task<int> ExecuteAsync(string query, object param)
