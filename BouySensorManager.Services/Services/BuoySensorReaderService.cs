@@ -96,29 +96,30 @@ namespace BuoySensorManager.Services.Services
                 Math.Max(0, recentReadings.Items.Count() - 540)
             );
             //
-            //  Sea level is the average of the oldest 9 minutes of height readings.
+            //  Sea level is the average of the oldest 9 minutes of depth readings.
+            //  It stands to reason the value will be inaccurate until we enough readings.
             //
             var seaLevel = oldestReadings.Average();
             //
             //  Wave amplitude is the difference between the current height and the sea level.
             //
-            var waveAmplitude = depth - seaLevel;
+            var amplitude = depth - seaLevel;
             //
             //  Wave height is the absolute value of the amplitude times two.
             //
-            var waveHeight = Math.Abs(waveAmplitude) * 2;
+            var height = Math.Abs(amplitude) * 2;
 
             BuoyPacket buoyPacket = new()
             {
                 BuoyId = buoyIds[port],
-                Amplitude = waveAmplitude,
+                Amplitude = amplitude,
                 Depth = depth,
                 SeaLevel = seaLevel,
             };
 
             await _buoyPacketRepository.Create(buoyPacket);
 
-            if (waveHeight > 30)
+            if (height > 30)
             {
                 //
                 // TODO: Send Alert.

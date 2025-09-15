@@ -7,6 +7,9 @@
         /// </summary>
         public int Id { get; init; }
 
+        /// <summary>
+        /// The UID of the Buoy.
+        /// </summary>
         public string BuoyId { get; init; } = default!;
 
         /// <summary>
@@ -24,6 +27,9 @@
         /// </summary>
         public double SeaLevel { get; init; }
 
+        /// <summary>
+        /// The time the packet was collected.
+        /// </summary>
         public DateTime CreatedOn { get; init; } = DateTime.UtcNow;
     }
 }
