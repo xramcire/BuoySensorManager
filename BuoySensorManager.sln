@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36429.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuoySensorManager.Web", "BuoySensorManager.Web\BuoySensorManager.Web.csproj", "{B1454201-17D6-4D27-A5DF-74D7CBCFE26C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuoySensorManager.Core", "BouySensoryManager.Core\BuoySensorManager.Core.csproj", "{D670A77C-DD52-4740-A072-B4D3A0D1CC90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuoySensorManager.Ecb", "BuoySensorManager.Ecb\BuoySensorManager.Ecb.csproj", "{881D785B-9152-4E3C-8845-BC33FAB0631F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuoySensorManager.Services", "BouySensorManager.Services\BuoySensorManager.Services.csproj", "{08209D43-7E48-40F5-B12A-84FC427A41E2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B1454201-17D6-4D27-A5DF-74D7CBCFE26C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1454201-17D6-4D27-A5DF-74D7CBCFE26C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1454201-17D6-4D27-A5DF-74D7CBCFE26C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1454201-17D6-4D27-A5DF-74D7CBCFE26C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D670A77C-DD52-4740-A072-B4D3A0D1CC90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D670A77C-DD52-4740-A072-B4D3A0D1CC90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D670A77C-DD52-4740-A072-B4D3A0D1CC90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D670A77C-DD52-4740-A072-B4D3A0D1CC90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{881D785B-9152-4E3C-8845-BC33FAB0631F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{881D785B-9152-4E3C-8845-BC33FAB0631F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{881D785B-9152-4E3C-8845-BC33FAB0631F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{881D785B-9152-4E3C-8845-BC33FAB0631F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08209D43-7E48-40F5-B12A-84FC427A41E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08209D43-7E48-40F5-B12A-84FC427A41E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08209D43-7E48-40F5-B12A-84FC427A41E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08209D43-7E48-40F5-B12A-84FC427A41E2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {18C263FA-D5BA-4FC0-8990-EBF6F4F09977}
+	EndGlobalSection
+EndGlobal
