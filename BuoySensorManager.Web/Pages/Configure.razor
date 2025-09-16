@@ -1,2 +1,79 @@
 ﻿<PageTitle>Configure</PageTitle>
 <h1>Configure</h1>
+
+<EditForm EditContext="EditContext">
+    <DataAnnotationsValidator />
+
+    <div class="row">
+        <div class="col-6">
+            <div class="mb-3">
+                <label for="BuoySensorEcbAddress" class="form-label">Buoy Sensor ECB Address</label>
+                <InputText class="form-control" @bind-Value="EditModel.BuoySensorEcbAddress" placeholder="127.0.0.1" />
+                <div class="form-text">
+                    The IP Address of the ECB. <code>Example: 127.0.0.1</code>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="BuoyPacketPersistDuration" class="form-label">Buoy Reading Persist Duration</label>
+                <InputNumber class="form-control" @bind-Value="EditModel.BuoyPacketPersistDuration" placeholder="60" />
+                <div class="form-text">
+                    The lenght of time in minutes that buoy readings are persisted on the device. <code>Example: 60</code>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="Buoy0Id" class="form-label">Port 0 Buoy ID</label>
+                <InputText class="form-control" @bind-Value="EditModel.Buoy0Id" placeholder="BUOY-XXXXXXX" />
+                <div class="form-text">
+                    The globally unique ID of the buoy attached to port 0. <code>Example: BUOY-XXXXXXX</code>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="Buoy2Id" class="form-label">Port 2 Buoy ID</label>
+                <InputText class="form-control" @bind-Value="EditModel.Buoy2Id" placeholder="BUOY-XXXXXXX" />
+                <div class="form-text">
+                    The globally unique ID of the buoy attached to port 2. <code>Example: BUOY-XXXXXXX</code>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="WaveHeightAlertThreshold" class="form-label">Wave Height Alert Threshold</label>
+                <InputNumber class="form-control" @bind-Value="EditModel.WaveHeightAlertThreshold" placeholder="30" />
+                <div class="form-text">
+                    The height in feet a wave must reach to trigger an alert. <code>Example: 30</code>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="mb-3">
+                <label for="BuoySensorEcbPort" class="form-label">Buoy Sensor ECB Port</label>
+                <InputNumber class="form-control" @bind-Value="EditModel.BuoySensorEcbPort" placeholder="9000" />
+                <div id="inputHelp" class="form-text">
+                    The Port Number of the ECB. <code>Example: 9000</code>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="BuoyPacketEjectionInterval" class="form-label">Buoy Reading Ejection Interval</label>
+                <InputNumber class="form-control" @bind-Value="EditModel.BuoyPacketEjectionInterval" placeholder="5" />
+                <div class="form-text">
+                    The frequency of time in minutes that buoy readings are ejected from the device. <code>Example: 5</code>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="Buoy1Id" class="form-label">Port 1 Buoy ID</label>
+                <InputText class="form-control" @bind-Value="EditModel.Buoy1Id" placeholder="BUOY-XXXXXXX" />
+                <div class="form-text">
+                    The globally unique ID of the buoy attached to port 1. <code>Example: BUOY-XXXXXXX</code>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="Buoy3Id" class="form-label">Port 3 Buoy ID</label>
+                <InputText class="form-control" @bind-Value="EditModel.Buoy3Id" placeholder="BUOY-XXXXXXX" />
+                <div class="form-text">
+                    The globally unique ID of the buoy attached to port 3. <code>Example: BUOY-XXXXXXX</code>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <button type="button" class="btn btn-primary" @onclick="Save">Save</button>
+    </div>
+</EditForm>

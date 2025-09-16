@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components;
 namespace BuoySensorManager.Web.Pages
 {
     [Route("readings")]
-    public partial class Readings
+    public partial class Readings : IDisposable
     {
         [Inject]
         private BuoyPacketPublisher Publisher { get; set; } = default!;
@@ -22,6 +22,12 @@ namespace BuoySensorManager.Web.Pages
         {
             packets.Add(e);
             InvokeAsync(StateHasChanged);
+        }
+
+        public void Dispose()
+        {
+            Publisher.OnPublished -= OnPublished;
+            GC.SuppressFinalize(this);
         }
     }
 }

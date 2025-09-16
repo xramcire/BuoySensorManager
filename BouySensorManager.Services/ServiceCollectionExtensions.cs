@@ -14,6 +14,7 @@ namespace BuoySensorManager.Services
         {
             services.AddCore();
             services.AddSingleton<BuoyPacketPublisher>();
+            services.AddSingleton<IConfigurationService, ConfigurationService>();
             services.AddHostedService<DatabaseManagementService>();
             services.AddHostedService<BuoySensorReaderService>();
             services.AddHostedService<BuoySensorAlertService>();
