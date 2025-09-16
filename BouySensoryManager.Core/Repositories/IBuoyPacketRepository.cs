@@ -10,9 +10,9 @@ namespace BuoySensorManager.Core.Repositories
         Task<int> Create(BuoyPacket buoyPacket);
 
         /// <summary>
-        /// Deletes anything older than the cutOff date.
+        /// Eject old records.
         /// </summary>
-        Task<int> Delete(DateTime cutOff);
+        Task<int> Eject(DateTime ejectOlderThan);
 
         /// <summary>
         /// Creates the table if it does not already exist.

@@ -31,16 +31,16 @@ namespace BuoySensorManager.Core.Configuration
             set => _configuration.SetValue(nameof(WaveHeightAlertThreshold), value);
         }
 
-        public int WaveHeightSaveDuration
+        public int BuoyPacketPersistDuration
         {
-            get => _configuration.GetValue(nameof(WaveHeightSaveDuration), 60);
-            set => _configuration.SetValue(nameof(WaveHeightSaveDuration), value);
+            get => _configuration.GetValue(nameof(BuoyPacketPersistDuration), 60);
+            set => _configuration.SetValue(nameof(BuoyPacketPersistDuration), value);
         }
 
-        public int WaveHeightCleanInterval
+        public int BuoyPacketEjectionInterval
         {
-            get => _configuration.GetValue(nameof(WaveHeightCleanInterval), 5);
-            set => _configuration.SetValue(nameof(WaveHeightCleanInterval), value);
+            get => _configuration.GetValue(nameof(BuoyPacketEjectionInterval), 5);
+            set => _configuration.SetValue(nameof(BuoyPacketEjectionInterval), value);
         }
     }
 }

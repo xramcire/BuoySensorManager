@@ -29,9 +29,18 @@ namespace BuoySensorManager.Core.Repositories
             }
         }
 
-        public Task<int> Delete(DateTime cutOff)
+        public async Task<int> Eject(DateTime ejectOlderThan)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var param = new { ReadingOn = ejectOlderThan.Ticks };
+                return await base.ExecuteAsync(eject, param);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error ejecting BuoyPackets.");
+                throw;
+            }
         }
 
         public async Task Initialize()
@@ -42,7 +51,7 @@ namespace BuoySensorManager.Core.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error initializing BuoyPackets datatable");
+                _logger.LogError(ex, "Error initializing BuoyPackets datatable.");
                 throw;
             }
         }
@@ -50,18 +59,19 @@ namespace BuoySensorManager.Core.Repositories
         #region Queries
 
         const string create = @"
-            INSERT INTO BuoyPackets (BuoyId, Depth, Amplitude, SeaLevel, CreatedOn)
-            VALUES (@BuoyId, @Depth, @Amplitude, @SeaLevel, @CreatedOn)";
+            INSERT INTO BuoyPackets (Port, Depth, Amplitude, SeaLevel, ReadingOn)
+            VALUES (@Port, @Depth, @Amplitude, @SeaLevel, @ReadingOn)";
 
         const string createTable = @"
             CREATE TABLE IF NOT EXISTS BuoyPackets (
-                Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                BuoyId TEXT NOT NULL,                    
+                Port INTEGER NOT NULL,
                 Depth REAL NOT NULL,
                 Amplitude REAL NOT NULL,
                 SeaLevel REAL NOT NULL,
-                CreatedOn DATETIME NOT NULL
+                ReadingOn INTEGER NOT NULL
             )";
+
+        const string eject = @"DELETE FROM BuoyPackets WHERE ReadingOn < @ReadingOn";
 
         #endregion
     }

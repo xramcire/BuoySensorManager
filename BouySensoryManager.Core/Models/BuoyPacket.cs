@@ -3,14 +3,9 @@
     public record BuoyPacket
     {
         /// <summary>
-        /// Auto Incremented.
+        /// The number of the port on the ECB.
         /// </summary>
-        public int Id { get; init; }
-
-        /// <summary>
-        /// The UID of the Buoy.
-        /// </summary>
-        public string BuoyId { get; init; } = default!;
+        public int Port { get; init; } = default!;
 
         /// <summary>
         /// This is the value that is reported by the buoy.
@@ -30,6 +25,6 @@
         /// <summary>
         /// The time the packet was collected.
         /// </summary>
-        public DateTime CreatedOn { get; init; } = DateTime.UtcNow;
+        public long ReadingOn { get; init; } = DateTime.UtcNow.Ticks;
     }
 }

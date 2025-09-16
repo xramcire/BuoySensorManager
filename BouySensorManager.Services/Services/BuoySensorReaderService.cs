@@ -50,7 +50,7 @@ namespace BuoySensorManager.Services.Services
                                     continue;
                                 }
 
-                                await ProcessWaveHeight(i, depth);
+                                await ProcessReading(i, depth);
                             }
                         }
                     }
@@ -84,19 +84,7 @@ namespace BuoySensorManager.Services.Services
         /// </summary>
         private readonly FixedQueue<double> recentReadings = new(600);
 
-        /// <summary>
-        /// This is a low rent substitute for a mapping table.
-        /// If there are 1000's of buoys each needs a UID.
-        /// </summary>
-        private readonly Dictionary<int, string> buoyIds = new()
-        {
-            { 0, "BUOY-932C2B2B5FC8" },
-            { 1, "BUOY-3A367CF75EF3" },
-            { 2, "BUOY-40BF8778ADB7" },
-            { 3, "BUOY-7A2D0FA8EA74" },
-        };
-
-        private async Task ProcessWaveHeight(int port, double depth)
+        private async Task ProcessReading(int port, double depth)
         {
             recentReadings.Add(depth);
             //
@@ -122,7 +110,7 @@ namespace BuoySensorManager.Services.Services
 
             BuoyPacket buoyPacket = new()
             {
-                BuoyId = buoyIds[port],
+                Port = port,
                 Amplitude = amplitude,
                 Depth = depth,
                 SeaLevel = seaLevel,

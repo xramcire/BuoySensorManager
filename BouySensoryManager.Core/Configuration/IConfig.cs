@@ -23,15 +23,15 @@ namespace BuoySensorManager.Core.Configuration
         int WaveHeightAlertThreshold { get; set; }
 
         /// <summary>
-        /// The time in minutes to retain saved wave height data.
+        /// The time in minutes to retain saved buoy packets.
         /// Default is 60.
         /// </summary>
-        int WaveHeightSaveDuration { get; set; }
+        int BuoyPacketPersistDuration { get; set; }
 
         /// <summary>
-        /// The time in minutes to wait between wave height data cleanings.
+        /// The time in minutes to wait between buoy packet ejections.
         /// Default is 5.
         /// </summary>
-        int WaveHeightCleanInterval { get; set; }
+        int BuoyPacketEjectionInterval { get; set; }
     }
 }
