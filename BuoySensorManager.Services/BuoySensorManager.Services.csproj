@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BouySensoryManager.Core\BuoySensorManager.Core.csproj" />
+    <ProjectReference Include="..\BuoySensoryManager.Core\BuoySensorManager.Core.csproj" />
   </ItemGroup>
 
 </Project>

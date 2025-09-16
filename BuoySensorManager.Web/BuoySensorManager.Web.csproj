@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BouySensorManager.Services\BuoySensorManager.Services.csproj" />
+    <ProjectReference Include="..\BuoySensorManager.Services\BuoySensorManager.Services.csproj" />
   </ItemGroup>
 
 </Project>

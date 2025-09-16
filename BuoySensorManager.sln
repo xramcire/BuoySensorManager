@@ -5,11 +5,11 @@ VisualStudioVersion = 17.14.36429.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuoySensorManager.Web", "BuoySensorManager.Web\BuoySensorManager.Web.csproj", "{B1454201-17D6-4D27-A5DF-74D7CBCFE26C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuoySensorManager.Core", "BouySensoryManager.Core\BuoySensorManager.Core.csproj", "{D670A77C-DD52-4740-A072-B4D3A0D1CC90}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuoySensorManager.Core", "BuoySensoryManager.Core\BuoySensorManager.Core.csproj", "{D670A77C-DD52-4740-A072-B4D3A0D1CC90}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuoySensorManager.Ecb", "BuoySensorManager.Ecb\BuoySensorManager.Ecb.csproj", "{881D785B-9152-4E3C-8845-BC33FAB0631F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuoySensorManager.Services", "BouySensorManager.Services\BuoySensorManager.Services.csproj", "{08209D43-7E48-40F5-B12A-84FC427A41E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuoySensorManager.Services", "BuoySensorManager.Services\BuoySensorManager.Services.csproj", "{08209D43-7E48-40F5-B12A-84FC427A41E2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject

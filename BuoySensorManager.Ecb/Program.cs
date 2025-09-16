@@ -8,7 +8,7 @@ namespace BuoySensorManager.Ecb
         static void Main()
         {
             int port = 9000;
-            IPAddress ip = IPAddress.Loopback;
+            IPAddress ip = IPAddress.Parse("127.0.0.255"); //.Loopback;
 
             TcpListener listener = new (ip, port);
             listener.Start();
