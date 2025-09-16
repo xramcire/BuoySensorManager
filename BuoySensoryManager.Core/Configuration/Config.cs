@@ -18,7 +18,7 @@ namespace BuoySensorManager.Core.Configuration
         {
             get
             {
-                string value = _configuration.GetValue(nameof(BuoySensorEcbAddress), IPAddress.Loopback.ToString());
+                string value = _configuration.GetValue(nameof(BuoySensorEcbAddress), "127.0.0.255");
                 buoySensorEcbAddress ??= IPAddress.Parse(value);
                 return buoySensorEcbAddress!;
             }
@@ -89,7 +89,7 @@ namespace BuoySensorManager.Core.Configuration
             }
         }
 
-        private Dictionary<int, string> portNames = [];
+        private readonly Dictionary<int, string> portNames = [];
 
         public string GetBuoyName(int portNumber)
         {
