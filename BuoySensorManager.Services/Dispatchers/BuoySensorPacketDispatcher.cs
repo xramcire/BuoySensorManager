@@ -2,7 +2,7 @@
 
 namespace BuoySensorManager.Services.Dispatchers
 {
-    public class BuoySensorPacketDispatcher
+    public class BuoySensorPacketDispatcher : IBuoySensorPacketDispatcher
     {
         public event AsyncBuoyPacketHandler? OnPublished;
 

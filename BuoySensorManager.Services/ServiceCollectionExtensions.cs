@@ -13,11 +13,12 @@ namespace BuoySensorManager.Services
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddCore();
-            services.AddSingleton<BuoySensorPacketDispatcher>();
+            services.AddSingleton<IBuoySensorPacketDispatcher, BuoySensorPacketDispatcher>();
             services.AddSingleton<IConfigurationService, ConfigurationService>();
             services.AddHostedService<DatabaseManagementService>();
             services.AddHostedService<BuoySensorReaderService>();
-            services.AddHostedService<BuoySensorPacketSenderService>();
+            services.AddHostedService<BuoyPacketSenderService>();
+            services.AddHostedService<BuoyPacketRetryService>();
             return services;
         }
     }

@@ -6,15 +6,15 @@ using Microsoft.Extensions.Logging;
 
 namespace BuoySensorManager.Services.Services
 {
-    public class BuoySensorPacketSenderService : IHostedService
+    public class BuoyPacketSenderService : IHostedService
     {
-        private readonly ILogger<BuoySensorPacketSenderService> _logger;
-        private readonly BuoySensorPacketDispatcher _buoyPacketDispatcher;
+        private readonly ILogger<BuoyPacketSenderService> _logger;
+        private readonly IBuoySensorPacketDispatcher _buoyPacketDispatcher;
         private readonly IBuoyPacketRepository _buoyPacketRepository;
 
-        public BuoySensorPacketSenderService(
-            ILogger<BuoySensorPacketSenderService> logger,
-            BuoySensorPacketDispatcher buoyPacketDispatcher,
+        public BuoyPacketSenderService(
+            ILogger<BuoyPacketSenderService> logger,
+            IBuoySensorPacketDispatcher buoyPacketDispatcher,
             IBuoyPacketRepository buoyPacketRepository
         )
         {

@@ -11,12 +11,12 @@ namespace BuoySensorManager.Services.Services
     {
         private readonly ILogger<BuoySensorReaderService> _logger;
         private readonly IConfig _config;
-        private readonly BuoySensorPacketDispatcher _buoyPacketPublisher;
+        private readonly IBuoySensorPacketDispatcher _buoyPacketPublisher;
 
         public BuoySensorReaderService(
             ILogger<BuoySensorReaderService> logger,
             IConfig config,
-            BuoySensorPacketDispatcher buoyPacketPublisher
+            IBuoySensorPacketDispatcher buoyPacketPublisher
         )
         {
             _logger = logger;

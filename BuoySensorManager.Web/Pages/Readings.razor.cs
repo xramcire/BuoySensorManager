@@ -13,7 +13,7 @@ namespace BuoySensorManager.Web.Pages
         private IConfig Config { get; set; } = default!;
 
         [Inject]
-        private BuoySensorPacketDispatcher Dipatcher { get; set; } = default!;
+        private IBuoySensorPacketDispatcher Dipatcher { get; set; } = default!;
 
         private readonly FixedQueue<BuoyPacketResponse> packets = new(10);
 
