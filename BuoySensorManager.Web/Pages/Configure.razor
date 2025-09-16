@@ -1,7 +1,7 @@
 ﻿<PageTitle>Configure</PageTitle>
 <h1>Configure</h1>
 
-<EditForm EditContext="EditContext">
+<EditForm EditContext="EditContext" OnValidSubmit="@Save">
     <DataAnnotationsValidator />
 
     <div class="row">
@@ -43,12 +43,12 @@
             </div>
         </div>
         <div class="col-6">
-            @for (int port = 0; port < EditModel.BuoySensorEcbPortCount; port++)
+            @foreach (int port in EditModel.BuoyNames.Keys.ToList())
             {
                 @if (EditModel.BuoyNames.ContainsKey(port))
                 {
                     <div class="mb-3">
-                        <label for="BuoyPacketEjectionInterval" class="form-label">@($"Buoy {port} Name")</label>
+                        <label class="form-label">@($"Buoy {port} Name")</label>
                         <InputText class="form-control" @bind-Value="EditModel.BuoyNames[port]" placeholder="BUOY-XXXX" />
                         <div class="form-text">
                             @($"The name of the buoy connected to port {port}.") <code>Example: BUOY-XXXX</code>
@@ -59,6 +59,6 @@
         </div>
     </div>
     <div class="row">
-        <button type="button" class="btn btn-primary" @onclick="Save">Save</button>
+        <button type="submit" class="btn btn-primary">Save</button>
     </div>
 </EditForm>

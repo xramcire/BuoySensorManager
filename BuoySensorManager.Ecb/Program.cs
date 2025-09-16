@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using Microsoft.Extensions.Logging;
+using System.Net;
 using System.Net.Sockets;
 
 namespace BuoySensorManager.Ecb
@@ -7,13 +8,20 @@ namespace BuoySensorManager.Ecb
     {
         static void Main()
         {
+            using var loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder.AddFilter("Default", LogLevel.Information).AddConsole();
+            });
+
+            ILogger logger = loggerFactory.CreateLogger<Program>();
+
             int port = 9000;
             IPAddress ip = IPAddress.Parse("127.0.0.255"); //.Loopback;
 
             TcpListener listener = new (ip, port);
             listener.Start();
 
-            Console.WriteLine("Listening");
+            logger.LogInformation("Now listening on: {ip}:{port}", ip, port);
 
             while (true)
             {

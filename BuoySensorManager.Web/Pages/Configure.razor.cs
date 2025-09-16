@@ -22,7 +22,7 @@ namespace BuoySensorManager.Web.Pages
             EditContext = new EditContext(EditModel);
         }
 
-        private void Save(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+        private void Save()
         {
             if (EditContext.Validate() == false)
             {
