@@ -1,5 +1,7 @@
+using BuoySensorManager.Core.Configuration;
+using BuoySensorManager.Core.Models;
+using BuoySensorManager.Services.Dispatchers;
 using BuoySensorManager.Services.Models;
-using BuoySensorManager.Services.Publishers;
 using Microsoft.AspNetCore.Components;
 
 namespace BuoySensorManager.Web.Pages
@@ -8,25 +10,45 @@ namespace BuoySensorManager.Web.Pages
     public partial class Readings : IDisposable
     {
         [Inject]
-        private BuoyPacketPublisher Publisher { get; set; } = default!;
+        private IConfig Config { get; set; } = default!;
+
+        [Inject]
+        private BuoySensorPacketDispatcher Dipatcher { get; set; } = default!;
 
         private readonly FixedQueue<BuoyPacketResponse> packets = new(10);
 
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            Publisher.OnPublished += OnPublished;
+            Dipatcher.OnPublished += async (sender, packet) =>
+            {
+                await OnPublished(packet);
+            };
         }
 
-        private void OnPublished(object? sender, BuoyPacketResponse e)
+        private async Task OnPublished(BuoyPacket buoyPacket)
         {
-            packets.Add(e);
-            InvokeAsync(StateHasChanged);
+            var response = new BuoyPacketResponse()
+            {
+                Id = buoyPacket.Id,
+                Port = buoyPacket.Port,
+                BuoyName = Config.GetBuoyName(buoyPacket.Port),
+                Depth = buoyPacket.Depth,
+                ReadingOn = new DateTime(buoyPacket.ReadingOn),
+            };
+
+            packets.Add(response);
+
+            await InvokeAsync(StateHasChanged);
         }
 
         public void Dispose()
         {
-            Publisher.OnPublished -= OnPublished;
+            Dipatcher.OnPublished -= async (sender, packet) =>
+            {
+                await OnPublished(packet);
+            };
+
             GC.SuppressFinalize(this);
         }
     }

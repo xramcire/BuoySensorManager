@@ -1,7 +1,7 @@
 ﻿using BuoySensorManager.Services.Services;
 using Microsoft.Extensions.DependencyInjection;
 using BuoySensorManager.Core;
-using BuoySensorManager.Services.Publishers;
+using BuoySensorManager.Services.Dispatchers;
 
 namespace BuoySensorManager.Services
 {
@@ -13,11 +13,11 @@ namespace BuoySensorManager.Services
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddCore();
-            services.AddSingleton<BuoyPacketPublisher>();
+            services.AddSingleton<BuoySensorPacketDispatcher>();
             services.AddSingleton<IConfigurationService, ConfigurationService>();
             services.AddHostedService<DatabaseManagementService>();
             services.AddHostedService<BuoySensorReaderService>();
-            services.AddHostedService<BuoySensorAlertService>();
+            services.AddHostedService<BuoySensorPacketSenderService>();
             return services;
         }
     }

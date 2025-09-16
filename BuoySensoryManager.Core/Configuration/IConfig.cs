@@ -11,16 +11,16 @@ namespace BuoySensorManager.Core.Configuration
         IPAddress BuoySensorEcbAddress { get; set; }
 
         /// <summary>
-        /// The port number of the ECB.
+        /// The networtk port number of the ECB.
         /// Default is 9000.
         /// </summary>
         int BuoySensorEcbPort { get; set; }
 
         /// <summary>
-        /// Wave alert threshold in feet.
-        /// Default is 30.
+        /// The number of ports on the ECB.
+        /// Default is 4.
         /// </summary>
-        int WaveHeightAlertThreshold { get; set; }
+        int BuoySensorEcbPortCount { get; set; }
 
         /// <summary>
         /// The time in minutes to retain saved buoy packets.
@@ -35,23 +35,14 @@ namespace BuoySensorManager.Core.Configuration
         int BuoyPacketEjectionInterval { get; set; }
 
         /// <summary>
-        /// The Id of the buoy on Port 0
+        /// Sets the name of a buoy by its ECB port number.
+        /// Default "Not Set".
         /// </summary>
-        string Buoy0Id { get; set; }
+        string GetBuoyName(int portNumber);
 
         /// <summary>
-        /// The Id of the buoy on Port 1
+        /// Gets the name of a buoy by its ECB port number.
         /// </summary>
-        string Buoy1Id { get; set; }
-
-        /// <summary>
-        /// The Id of the buoy on Port 2
-        /// </summary>
-        string Buoy2Id { get; set; }
-
-        /// <summary>
-        /// The Id of the buoy on Port 3
-        /// </summary>
-        string Buoy3Id { get; set; }
+        void SetBuoyName(int portNumber, string name);
     }
 }

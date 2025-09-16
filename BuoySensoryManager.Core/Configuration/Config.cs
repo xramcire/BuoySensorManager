@@ -44,18 +44,18 @@ namespace BuoySensorManager.Core.Configuration
             }
         }
 
-        private int? waveHeightAlertThreshold = null;
-        public int WaveHeightAlertThreshold
+        private int? buoySensorEcbPortCount = null;
+        public int BuoySensorEcbPortCount
         {
             get
             {
-                waveHeightAlertThreshold ??= _configuration.GetValue(nameof(WaveHeightAlertThreshold), 30);
-                return waveHeightAlertThreshold.Value;
+                buoySensorEcbPortCount ??= _configuration.GetValue(nameof(BuoySensorEcbPortCount), 4);
+                return buoySensorEcbPortCount.Value;
             }
             set
             {
-                _configuration.SetValue(nameof(WaveHeightAlertThreshold), value);
-                waveHeightAlertThreshold = value;
+                _configuration.SetValue(nameof(BuoySensorEcbPortCount), value);
+                buoySensorEcbPortCount = value;
             }
         }
 
@@ -89,64 +89,30 @@ namespace BuoySensorManager.Core.Configuration
             }
         }
 
-        private string? buoy0Id = null;
-        public string Buoy0Id
+        private Dictionary<int, string> portNames = [];
+
+        public string GetBuoyName(int portNumber)
         {
-            get
+            if (portNames.TryGetValue(portNumber, out string? name))
             {
-                buoy0Id ??= _configuration.GetValue(nameof(Buoy0Id), "BUOY-XXXX");
-                return buoy0Id!;
+                return name;
             }
-            set
-            {
-                _configuration.SetValue(nameof(Buoy0Id), value);
-                buoy0Id = value;
-            }
+
+            string portKey = GetPortKey(portNumber);
+            name = _configuration.GetValue(portKey, "Not Set");
+
+            portNames[portNumber] = name;
+
+            return name;
         }
 
-        private string? buoy1Id = null;
-        public string Buoy1Id
+        public void SetBuoyName(int portNumber, string name)
         {
-            get
-            {
-                buoy1Id ??= _configuration.GetValue(nameof(Buoy1Id), "BUOY-XXXX");
-                return buoy1Id!;
-            }
-            set
-            {
-                _configuration.SetValue(nameof(Buoy1Id), value);
-                buoy1Id = value;
-            }
+            string portKey = GetPortKey(portNumber);
+            portNames[portNumber] = name;
+            _configuration.SetValue(portKey, name);
         }
 
-        private string? buoy2Id = null;
-        public string Buoy2Id
-        {
-            get
-            {
-                buoy2Id ??= _configuration.GetValue(nameof(Buoy2Id), "BUOY-XXXX");
-                return buoy2Id!;
-            }
-            set
-            {
-                _configuration.SetValue(nameof(Buoy2Id), value);
-                buoy2Id = value;
-            }
-        }
-
-        private string? buoy3Id = null;
-        public string Buoy3Id
-        {
-            get
-            {
-                buoy3Id ??= _configuration.GetValue(nameof(Buoy3Id), "BUOY-XXXX");
-                return buoy3Id!;
-            }
-            set
-            {
-                _configuration.SetValue(nameof(Buoy3Id), value);
-                buoy3Id = value;
-            }
-        }
+        private static string GetPortKey(int portNumber) => $"Port{portNumber}Name";
     }
 }

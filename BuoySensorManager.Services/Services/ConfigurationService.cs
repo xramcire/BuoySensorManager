@@ -15,18 +15,23 @@ namespace BuoySensorManager.Services.Services
 
         public ConfigRequest Get()
         {
-            return new ConfigRequest()
+            var ret = new ConfigRequest()
             {
                 BuoySensorEcbAddress = _config.BuoySensorEcbAddress.ToString(),
                 BuoySensorEcbPort = _config.BuoySensorEcbPort,
+                BuoySensorEcbPortCount = _config.BuoySensorEcbPortCount,
                 BuoyPacketEjectionInterval = _config.BuoyPacketEjectionInterval,
                 BuoyPacketPersistDuration = _config.BuoyPacketPersistDuration,
-                WaveHeightAlertThreshold = _config.WaveHeightAlertThreshold,
-                Buoy0Id = _config.Buoy0Id,
-                Buoy1Id = _config.Buoy1Id,
-                Buoy2Id = _config.Buoy2Id,
-                Buoy3Id = _config.Buoy3Id
             };
+
+            int count = _config.BuoySensorEcbPortCount;
+
+            for (int port = 0; port < count; port++)
+            {
+                ret.BuoyNames[port] = _config.GetBuoyName(port);
+            }
+
+            return ret;
         }
 
         public bool Save(ConfigRequest request)
@@ -36,13 +41,14 @@ namespace BuoySensorManager.Services.Services
             //
             _config.BuoySensorEcbAddress = IPAddress.Parse(request.BuoySensorEcbAddress);
             _config.BuoySensorEcbPort = request.BuoySensorEcbPort;
+            _config.BuoySensorEcbPortCount = request.BuoySensorEcbPortCount;
             _config.BuoyPacketPersistDuration = request.BuoyPacketPersistDuration;
             _config.BuoyPacketEjectionInterval = request.BuoyPacketEjectionInterval;
-            _config.WaveHeightAlertThreshold = request.WaveHeightAlertThreshold;
-            _config.Buoy0Id = request.Buoy0Id;
-            _config.Buoy1Id = request.Buoy1Id;
-            _config.Buoy2Id = request.Buoy2Id;
-            _config.Buoy3Id = request.Buoy3Id;
+
+            foreach (var kvp in request.BuoyNames)
+            {
+                _config.SetBuoyName(kvp.Key, kvp.Value);
+            }
 
             return true;
         }

@@ -59,15 +59,14 @@ namespace BuoySensorManager.Core.Repositories
         #region Queries
 
         const string create = @"
-            INSERT INTO BuoyPackets (Port, Depth, Amplitude, SeaLevel, ReadingOn)
-            VALUES (@Port, @Depth, @Amplitude, @SeaLevel, @ReadingOn)";
+            INSERT INTO BuoyPackets (Id, Port, Depth, ReadingOn)
+            VALUES (@Id, @Port, @Depth, @ReadingOn)";
 
         const string createTable = @"
             CREATE TABLE IF NOT EXISTS BuoyPackets (
+                Id UNIQUEIDENTIFIER NOT NULL,
                 Port INTEGER NOT NULL,
                 Depth REAL NOT NULL,
-                Amplitude REAL NOT NULL,
-                SeaLevel REAL NOT NULL,
                 ReadingOn INTEGER NOT NULL
             )";
 

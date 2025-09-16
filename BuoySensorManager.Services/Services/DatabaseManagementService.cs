@@ -28,19 +28,13 @@ namespace BuoySensorManager.Services.Services
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                await BuoyPacketEject();
+                var persistDuration = _config.BuoyPacketPersistDuration;
+                var ejectOlderThan = DateTime.UtcNow.AddMinutes(-persistDuration);
+                await _buoyPacketRepository.Eject(ejectOlderThan);
+
                 var ejectionInterval = _config.BuoyPacketEjectionInterval;
                 await Task.Delay(TimeSpan.FromMinutes(ejectionInterval), stoppingToken);
             }
-
-            await Task.CompletedTask;
-        }
-
-        private async Task BuoyPacketEject()
-        {
-            var persistDuration = _config.BuoyPacketPersistDuration;
-            var ejectOlderThan = DateTime.UtcNow.AddMinutes(-persistDuration);
-            await _buoyPacketRepository.Eject(ejectOlderThan);
         }
     }
 }

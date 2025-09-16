@@ -1,8 +1,6 @@
 ﻿using BuoySensorManager.Core.Configuration;
 using BuoySensorManager.Core.Models;
-using BuoySensorManager.Core.Repositories;
-using BuoySensorManager.Services.Models;
-using BuoySensorManager.Services.Publishers;
+using BuoySensorManager.Services.Dispatchers;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Net.Sockets;
@@ -13,19 +11,16 @@ namespace BuoySensorManager.Services.Services
     {
         private readonly ILogger<BuoySensorReaderService> _logger;
         private readonly IConfig _config;
-        private readonly IBuoyPacketRepository _buoyPacketRepository;
-        private readonly BuoyPacketPublisher _buoyPacketPublisher;
+        private readonly BuoySensorPacketDispatcher _buoyPacketPublisher;
 
         public BuoySensorReaderService(
             ILogger<BuoySensorReaderService> logger,
             IConfig config,
-            IBuoyPacketRepository buoyPacketRepository,
-            BuoyPacketPublisher buoyPacketPublisher
+            BuoySensorPacketDispatcher buoyPacketPublisher
         )
         {
             _logger = logger;
             _config = config;
-            _buoyPacketRepository = buoyPacketRepository;
             _buoyPacketPublisher = buoyPacketPublisher;
         }
 
@@ -45,16 +40,22 @@ namespace BuoySensorManager.Services.Services
                             //
                             //  The readings are arranged in order by port number.
                             //
-                            for (int i = 0; i < readings.Length; i++)
+                            for (int port = 0; port < readings.Length; port++)
                             {
-                                double depth = readings[i];
+                                double depth = readings[port];
 
                                 if (double.IsNaN(depth))
                                 {
                                     continue;
                                 }
 
-                                await ProcessReading(i, depth);
+                                BuoyPacket buoyPacket = new()
+                                {
+                                    Port = port,
+                                    Depth = depth,
+                                };
+
+                                await _buoyPacketPublisher.Publish(buoyPacket);
                             }
                         }
                     }
@@ -80,45 +81,6 @@ namespace BuoySensorManager.Services.Services
             double[] ret = new double[length];
             Buffer.BlockCopy(dataBytes, 0, ret, 0, dataBytes.Length);
             return ret;
-        }
-
-        /// <summary>
-        /// We keep the most recent 600 readings (10 minutes worth)
-        /// in memory to create a rolling average of the sea level.
-        /// </summary>
-        private readonly FixedQueue<double> recentReadings = new(600);
-
-        private async Task ProcessReading(int port, double depth)
-        {
-            recentReadings.Add(depth);
-            //
-            //  We are skipping the previous minute to
-            //  avoid unfinished peaks and troughs.
-            //
-            var oldestReadings = recentReadings.Items.Skip(
-                Math.Max(0, recentReadings.Items.Count() - 540)
-            );
-            //
-            //  Sea level is the average of the oldest 9 minutes of depth readings.
-            //  It stands to reason the value will be inaccurate until we enough readings.
-            //
-            var seaLevel = oldestReadings.Average();
-            //
-            //  Wave amplitude is the difference between the current height and the sea level.
-            //
-            var amplitude = depth - seaLevel;
-
-            BuoyPacket buoyPacket = new()
-            {
-                Port = port,
-                Amplitude = amplitude,
-                Depth = depth,
-                SeaLevel = seaLevel,
-            };
-
-            await _buoyPacketRepository.Create(buoyPacket);
-
-            _buoyPacketPublisher.Publish(buoyPacket);
         }
     }
 }

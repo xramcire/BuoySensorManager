@@ -2,6 +2,8 @@
 {
     public record BuoyPacket
     {
+        public Guid Id { get; set; } = Guid.NewGuid();
+
         /// <summary>
         /// The number of the port on the ECB.
         /// </summary>
@@ -11,16 +13,6 @@
         /// This is the value that is reported by the buoy.
         /// </summary>
         public double Depth { get; init; }
-
-        /// <summary>
-        /// This value is calculated.
-        /// </summary>
-        public double Amplitude { get; init; }
-
-        /// <summary>
-        /// This value is calculated.
-        /// </summary>
-        public double SeaLevel { get; init; }
 
         /// <summary>
         /// The time the packet was collected.

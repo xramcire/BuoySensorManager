@@ -30,6 +30,9 @@ namespace BuoySensorManager.Web.Pages
             }
 
             ConfigurationService.Save(EditModel);
+
+            EditModel = ConfigurationService.Get();
+            EditContext = new EditContext(EditModel);
         }
     }
 }

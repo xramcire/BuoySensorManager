@@ -4,21 +4,19 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Buoy ID</th>
+            <th>Port</th>
+            <th>Buoy Name</th>
             <th>Depth</th>
-            <th>Sea Level</th>
-            <th>Wave Height</th>
             <th>Received On</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var packet in packets.Items)
         {
-            <tr class="@(packet.IsAlert ? "alert" : "normal")">
-                <td>@packet.BuoyId</td>
+            <tr>
+                <td>@packet.Port</td>
+                <td>@packet.BuoyName</td>
                 <td>@packet.Depth.ToString("F1")</td>
-                <td>@packet.SeaLevel.ToString("F1")</td>
-                <td>@packet.WaveHeight.ToString("F1")</td>
                 <td>@packet.ReadingOn</td>
             </tr>
         }
