@@ -5,7 +5,7 @@ namespace BuoySensorManager.Ecb
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             int port = 9000;
             IPAddress ip = IPAddress.Loopback;
@@ -13,38 +13,26 @@ namespace BuoySensorManager.Ecb
             TcpListener listener = new (ip, port);
             listener.Start();
 
-            Console.WriteLine($"Listening to {ip}:{port}");
+            Console.WriteLine("Listening");
 
             while (true)
             {
-                TcpClient client = listener.AcceptTcpClient();
-
-                NetworkStream stream = client.GetStream();
-
-                byte[] requestBuffer = new byte[4];
-                
-                int bytesRead = stream.Read(requestBuffer, 0, requestBuffer.Length);
-                
-                if (bytesRead < 4)
+                using (TcpClient client = listener.AcceptTcpClient())
                 {
-                    //
-                    //  The request was not valid. Must be an int...
-                    //
+                    using (NetworkStream stream = client.GetStream())
+                    {
+                        double[] readings = GetReadings();
+
+                        byte[] lengthBytes = BitConverter.GetBytes(readings.Length);
+                        byte[] dataBytes = new byte[readings.Length * sizeof(double)];
+                        Buffer.BlockCopy(readings, 0, dataBytes, 0, dataBytes.Length);
+
+                        stream.Write(lengthBytes, 0, lengthBytes.Length);
+                        stream.Write(dataBytes, 0, dataBytes.Length);
+                    }
+
                     client.Close();
-                    continue;
                 }
-                //
-                //  This tells us which port (buoy) the consumer wants data for.
-                //
-                int portNumber = BitConverter.ToInt32(requestBuffer, 0);
-
-                double waveHeight = GetWaveHeight(portNumber);
-
-                byte[] responsePacket = BitConverter.GetBytes(waveHeight);
-
-                stream.Write(responsePacket, 0, responsePacket.Length);
-
-                client.Close();
             }
         }
 
@@ -73,15 +61,19 @@ namespace BuoySensorManager.Ecb
             12.0, 10.8, 9.6, 8.4, 7.2, 6.0, 4.8, 3.6, 2.4, 1.2
         ];
 
-        private static double GetWaveHeight(int portNumber)
+        private static double[] GetReadings()
         {
-            //
-            // portNumber is just for demo purposes.
-            // We arent going it use it.
-            //
             var amplitude = Amplitudes[DateTime.UtcNow.Second];
             var seaLevel = SeaLevels[DateTime.UtcNow.Hour];
-            return seaLevel + amplitude;
+            //
+            //  This device has 4 ports.
+            //  0 connected
+            //  1 disconnected
+            //  2 disconnected
+            //  3 disconnected
+            //
+            var depth = seaLevel + amplitude;
+            return [depth, double.NaN, double.NaN, double.NaN];
         }
     }
 }

@@ -31,29 +31,26 @@ namespace BuoySensorManager.Services.Services
             {
                 try
                 {
-                    //
-                    //  Here we mimic sending the port number to the ECB.
-                    //  This assumes the device could have multiple buoys attached.
-                    //
-                    const int portNumber = 1;
-
-                    byte[] packet = BitConverter.GetBytes(portNumber);
-
                     using (var client = new TcpClient())
                     {
                         client.Connect(_config.BuoySensorEcbAddress, _config.BuoySensorEcbPort);
 
                         using (NetworkStream stream = client.GetStream())
                         {
-                            await stream.WriteAsync(packet, stoppingToken);
-
-                            byte[] responseBuffer = new byte[8];
-                            int bytesRead = await stream.ReadAsync(responseBuffer, stoppingToken);
-
-                            if (bytesRead == 8)
+                            var readings = ReceiveReadings(stream);
+                            //
+                            //  The readings are arranged in order by port number.
+                            //
+                            for (int i = 0; i < readings.Length; i++)
                             {
-                                double depth = BitConverter.ToDouble(responseBuffer, 0);
-                                await ProcessWaveHeight(portNumber, depth);
+                                double depth = readings[i];
+
+                                if (double.IsNaN(depth))
+                                {
+                                    continue;
+                                }
+
+                                await ProcessWaveHeight(i, depth);
                             }
                         }
                     }
@@ -65,6 +62,20 @@ namespace BuoySensorManager.Services.Services
 
                 await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
             }
+        }
+
+        private static double[] ReceiveReadings(NetworkStream stream)
+        {
+            byte[] lengthBytes = new byte[sizeof(int)];
+            stream.ReadExactly(lengthBytes, 0, lengthBytes.Length);
+            int length = BitConverter.ToInt32(lengthBytes, 0);
+
+            byte[] dataBytes = new byte[length * sizeof(double)];
+            stream.ReadExactly(dataBytes, 0, dataBytes.Length);
+
+            double[] ret = new double[length];
+            Buffer.BlockCopy(dataBytes, 0, ret, 0, dataBytes.Length);
+            return ret;
         }
 
         /// <summary>
@@ -79,10 +90,10 @@ namespace BuoySensorManager.Services.Services
         /// </summary>
         private readonly Dictionary<int, string> buoyIds = new()
         {
-            { 1, "BUOY-932C2B2B5FC8" },
-            { 2, "BUOY-3A367CF75EF3" },
-            { 3, "BUOY-40BF8778ADB7" },
-            { 4, "BUOY-7A2D0FA8EA74" },
+            { 0, "BUOY-932C2B2B5FC8" },
+            { 1, "BUOY-3A367CF75EF3" },
+            { 2, "BUOY-40BF8778ADB7" },
+            { 3, "BUOY-7A2D0FA8EA74" },
         };
 
         private async Task ProcessWaveHeight(int port, double depth)
