@@ -1,7 +1,8 @@
 ﻿using BuoySensorManager.Core.Configuration;
 using BuoySensorManager.Core.Models;
 using BuoySensorManager.Core.Repositories;
-using BuoySensorManager.Core.Specialized;
+using BuoySensorManager.Services.Models;
+using BuoySensorManager.Services.Publishers;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Net.Sockets;
@@ -13,16 +14,19 @@ namespace BuoySensorManager.Services.Services
         private readonly ILogger<BuoySensorReaderService> _logger;
         private readonly IConfig _config;
         private readonly IBuoyPacketRepository _buoyPacketRepository;
+        private readonly BuoyPacketPublisher _buoyPacketPublisher;
 
         public BuoySensorReaderService(
             ILogger<BuoySensorReaderService> logger,
             IConfig config,
-            IBuoyPacketRepository buoyPacketRepository
+            IBuoyPacketRepository buoyPacketRepository,
+            BuoyPacketPublisher buoyPacketPublisher
         )
         {
             _logger = logger;
             _config = config;
             _buoyPacketRepository = buoyPacketRepository;
+            _buoyPacketPublisher = buoyPacketPublisher;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -103,10 +107,6 @@ namespace BuoySensorManager.Services.Services
             //  Wave amplitude is the difference between the current height and the sea level.
             //
             var amplitude = depth - seaLevel;
-            //
-            //  Wave height is the absolute value of the amplitude times two.
-            //
-            var height = Math.Abs(amplitude) * 2;
 
             BuoyPacket buoyPacket = new()
             {
@@ -118,12 +118,7 @@ namespace BuoySensorManager.Services.Services
 
             await _buoyPacketRepository.Create(buoyPacket);
 
-            if (height > 30)
-            {
-                //
-                // TODO: Send Alert.
-                //
-            }
+            _buoyPacketPublisher.Publish(buoyPacket);
         }
     }
 }

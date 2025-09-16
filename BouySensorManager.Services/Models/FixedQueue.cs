@@ -1,4 +1,4 @@
-﻿namespace BuoySensorManager.Core.Specialized
+﻿namespace BuoySensorManager.Services.Models
 {
     public class FixedQueue<T>
     {

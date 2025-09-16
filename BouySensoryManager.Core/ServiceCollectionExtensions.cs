@@ -10,12 +10,14 @@ namespace BuoySensorManager.Core
     public static class ServiceCollectionExtensions
     {
         /// <summary>
-        /// 
+        /// Add core dependencies.
         /// </summary>
         public static IServiceCollection AddCore(this IServiceCollection services)
         {
             services.AddSingleton<IConfig, Config>();
-
+            //
+            //  Batteries??? That is soo intuitive...
+            //
             Batteries.Init();
 
             services.AddSingleton<IDbConnection>(sp =>

@@ -1,0 +1,4 @@
+tr.alert > td {
+    background-color: red !important;
+    color: white !important;
+}

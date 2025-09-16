@@ -33,5 +33,25 @@ namespace BuoySensorManager.Core.Configuration
         /// Default is 5.
         /// </summary>
         int BuoyPacketEjectionInterval { get; set; }
+
+        /// <summary>
+        /// The Id of the buoy on Port 0
+        /// </summary>
+        string Buoy0Id { get; set; }
+
+        /// <summary>
+        /// The Id of the buoy on Port 1
+        /// </summary>
+        string Buoy1Id { get; set; }
+
+        /// <summary>
+        /// The Id of the buoy on Port 2
+        /// </summary>
+        string Buoy2Id { get; set; }
+
+        /// <summary>
+        /// The Id of the buoy on Port 3
+        /// </summary>
+        string Buoy3Id { get; set; }
     }
 }
