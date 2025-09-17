@@ -16,6 +16,7 @@
 
         /// <summary>
         /// This value is calculated based on recent readings.
+        /// If the value is null there was insufficent data to get a good reading.
         /// </summary>
         public double? SeaLevel { get; init; }
 
