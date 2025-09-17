@@ -2,7 +2,10 @@
 {
     public record BuoyPacket
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        /// <summary>
+        /// The UID of the reading.
+        /// </summary>
+        public Guid Id { get; init; } = Guid.NewGuid();
 
         /// <summary>
         /// The number of the port on the ECB.

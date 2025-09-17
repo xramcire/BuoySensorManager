@@ -4,12 +4,12 @@ using Microsoft.Extensions.Hosting;
 
 namespace BuoySensorManager.Services.Services
 {
-    public class DatabaseManagementService : BackgroundService
+    public class BuoyPacketPurgeService : BackgroundService
     {
         private readonly IConfig _config;
         private readonly IBuoyPacketRepository _buoyPacketRepository;
 
-        public DatabaseManagementService(
+        public BuoyPacketPurgeService(
             IConfig config,
             IBuoyPacketRepository buoyPacketRepository            
         )

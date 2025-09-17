@@ -15,7 +15,7 @@ namespace BuoySensorManager.Services
             services.AddCore();
             services.AddSingleton<IBuoySensorPacketDispatcher, BuoySensorPacketDispatcher>();
             services.AddSingleton<IConfigurationService, ConfigurationService>();
-            services.AddHostedService<DatabaseManagementService>();
+            services.AddHostedService<BuoyPacketPurgeService>();
             services.AddHostedService<BuoySensorReaderService>();
             services.AddHostedService<BuoyPacketSenderService>();
             services.AddHostedService<BuoyPacketRetryService>();
