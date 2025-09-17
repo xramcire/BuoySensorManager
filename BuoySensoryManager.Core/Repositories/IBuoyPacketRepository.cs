@@ -7,7 +7,7 @@ namespace BuoySensorManager.Core.Repositories
         /// <summary>
         /// Counts of all records.
         /// </summary>
-        ValueTask<int> Count();
+        ValueTask<long> Count();
 
         /// <summary>
         /// Creates a new record.

@@ -59,7 +59,7 @@ namespace BuoySensorManager.Services.Services
             //  Head, Health, Ping, DNS, something we can do without having some data to send.
             //  We could also consider some global flag that tells us if the network connection is up or down.
             //
-            int unsent = await _buoyPacketRepository.Count();
+            long unsent = await _buoyPacketRepository.Count();
 
             while (unsent > 0)
             {

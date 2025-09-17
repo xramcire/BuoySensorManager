@@ -16,12 +16,12 @@ namespace BuoySensorManager.Core.Repositories
             _logger = logger;
         }
 
-        public async ValueTask<int> Count()
+        public async ValueTask<long> Count()
         {
             try
             {
                 var result = await base.ExecuteScalarAsync(count);
-                return result is null ? 0 : Convert.ToInt32(result);
+                return result is null ? 0 : Convert.ToInt64(result);
             }
             catch (Exception ex)
             {
