@@ -10,6 +10,8 @@ namespace BuoySensorManager.Core.Configuration
         //
         //  I know IConfiguration is meant to be read only by default.
         //  This is me having some fun with boundaries.
+        //  Using a text file of some sort allows transportable config
+        //  in addition if the database is lost configuration will persist.
         //
         private readonly IConfiguration _configuration;
 
