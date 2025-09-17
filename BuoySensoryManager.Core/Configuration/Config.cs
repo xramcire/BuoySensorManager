@@ -1,11 +1,16 @@
-﻿using BuoySensorManager.Core.Extensions;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using System.Net;
+using System.Text.Json;
 
 namespace BuoySensorManager.Core.Configuration
 {
     public class Config : IConfig
     {
+        public const string FilePath = "config.json";
+        //
+        //  I know IConfiguration is meant to be read only by default.
+        //  This is me having some fun with boundaries.
+        //
         private readonly IConfiguration _configuration;
 
         public Config(IConfiguration configuration)
@@ -24,7 +29,7 @@ namespace BuoySensorManager.Core.Configuration
             }
             set
             {
-                _configuration.SetValue(nameof(BuoySensorEcbAddress), value.ToString());
+                SetValue(nameof(BuoySensorEcbAddress), value.ToString());
                 buoySensorEcbAddress = value;
             }
         }
@@ -39,7 +44,7 @@ namespace BuoySensorManager.Core.Configuration
             }
             set
             {
-                _configuration.SetValue(nameof(BuoySensorEcbPort), value);
+                SetValue(nameof(BuoySensorEcbPort), value);
                 buoySensorEcbPort = value;
             }
         }
@@ -54,7 +59,7 @@ namespace BuoySensorManager.Core.Configuration
             }
             set
             {
-                _configuration.SetValue(nameof(BuoySensorEcbPortCount), value);
+                SetValue(nameof(BuoySensorEcbPortCount), value);
                 buoySensorEcbPortCount = value;
             }
         }
@@ -69,7 +74,7 @@ namespace BuoySensorManager.Core.Configuration
             }
             set
             {
-                _configuration.SetValue(nameof(BuoyPacketPurgeInterval), value);
+                SetValue(nameof(BuoyPacketPurgeInterval), value);
                 buoyPacketPurgeInterval = value;
             }
         }
@@ -84,7 +89,7 @@ namespace BuoySensorManager.Core.Configuration
             }
             set
             {
-                _configuration.SetValue(nameof(BuoyPacketRetryInterval), value);
+                SetValue(nameof(BuoyPacketRetryInterval), value);
                 buoyPacketRetryInterval = value;
             }
         }
@@ -110,9 +115,96 @@ namespace BuoySensorManager.Core.Configuration
         {
             string portKey = GetPortKey(portNumber);
             portNames[portNumber] = name;
-            _configuration.SetValue(portKey, name);
+            SetValue(portKey, name);
         }
 
         private static string GetPortKey(int portNumber) => $"Port{portNumber}Name";
+
+        private static void SetValue(string key, string value)
+        {
+            var root = GetDocumentRoot();
+
+            using var stream = new MemoryStream();
+            using var writer = new Utf8JsonWriter(stream, new JsonWriterOptions { Indented = true });
+
+            writer.WriteStartObject();
+
+            foreach (var property in root.EnumerateObject())
+            {
+                if (property.NameEquals(key))
+                {
+                    writer.WriteString(property.Name, value);
+                }
+                else
+                {
+                    property.WriteTo(writer);
+                }
+            }
+
+            // If key doesn't exist, add it
+            if (!root.TryGetProperty(key, out _))
+            {
+                writer.WriteString(key, value);
+            }
+
+            writer.WriteEndObject();
+            writer.Flush();
+
+            WriteDocument(stream);
+        }
+
+        private static void SetValue(string key, int value)
+        {
+            var root = GetDocumentRoot();
+
+            using var stream = new MemoryStream();
+            using var writer = new Utf8JsonWriter(stream, new JsonWriterOptions { Indented = true });
+
+            writer.WriteStartObject();
+
+            foreach (var property in root.EnumerateObject())
+            {
+                if (property.NameEquals(key))
+                {
+                    writer.WriteNumber(property.Name, value);
+                }
+                else
+                {
+                    property.WriteTo(writer);
+                }
+            }
+
+            if (!root.TryGetProperty(key, out _))
+            {
+                writer.WriteNumber(key, value);
+            }
+
+            writer.WriteEndObject();
+            writer.Flush();
+
+            WriteDocument(stream);
+        }
+
+        private static JsonElement GetDocumentRoot()
+        {
+            string json;
+
+            if (File.Exists(FilePath))
+            {
+                json = File.ReadAllText(FilePath);
+            }
+            else
+            {
+                json = "{}";
+            }
+
+            var doc = JsonDocument.Parse(json);
+            return doc.RootElement.Clone();
+        }
+
+        private static void WriteDocument(MemoryStream stream)
+        {
+            File.WriteAllText(FilePath, System.Text.Encoding.UTF8.GetString(stream.ToArray()));
+        }
     }
 }

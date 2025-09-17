@@ -1,3 +1,4 @@
+using BuoySensorManager.Core.Configuration;
 using BuoySensorManager.Services;
 
 namespace BuoySensorManager.Web
@@ -7,6 +8,9 @@ namespace BuoySensorManager.Web
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Configuration.Sources.Clear();
+            builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+            builder.Configuration.AddJsonFile(Config.FilePath, optional: true, reloadOnChange: false);
 
             // Add services to the container.
             builder.Services.AddRazorPages();
