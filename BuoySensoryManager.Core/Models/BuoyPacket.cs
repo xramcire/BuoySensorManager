@@ -15,6 +15,11 @@
         public double Depth { get; init; }
 
         /// <summary>
+        /// This value is calculated based on recent readings.
+        /// </summary>
+        public double? SeaLevel { get; init; }
+
+        /// <summary>
         /// The time the packet was collected.
         /// </summary>
         public long ReadingOn { get; init; } = DateTime.UtcNow.Ticks;

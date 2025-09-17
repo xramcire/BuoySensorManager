@@ -49,9 +49,9 @@ namespace BuoySensorManager.Services.Services
             {
                 //
                 //  Send how?
-                //  Email, Text, Http, Tcp?
+                //  Http, Tcp?
                 //
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
             catch (Exception ex)
             {

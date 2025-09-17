@@ -1,8 +1,10 @@
 ﻿using BuoySensorManager.Core.Configuration;
 using BuoySensorManager.Core.Models;
 using BuoySensorManager.Services.Dispatchers;
+using BuoySensorManager.Services.Models;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Collections.Concurrent;
 using System.Net.Sockets;
 
 namespace BuoySensorManager.Services.Services
@@ -49,13 +51,7 @@ namespace BuoySensorManager.Services.Services
                                     continue;
                                 }
 
-                                BuoyPacket buoyPacket = new()
-                                {
-                                    Port = port,
-                                    Depth = depth,
-                                };
-
-                                await _buoyPacketPublisher.Publish(buoyPacket);
+                                await HandingReading(port, depth);
                             }
                         }
                     }
@@ -81,6 +77,48 @@ namespace BuoySensorManager.Services.Services
             double[] ret = new double[length];
             Buffer.BlockCopy(dataBytes, 0, ret, 0, dataBytes.Length);
             return ret;
+        }
+
+        /// <summary>
+        /// We keep the most recent 600 readings (10 minutes worth)
+        /// in memory to create a rolling average of the sea level.
+        /// </summary>
+        private readonly ConcurrentDictionary<int, FixedQueue<double>> recentReadings = [];
+
+        private async Task HandingReading(int port, double depth)
+        {
+            if (!recentReadings.TryGetValue(port, out FixedQueue<double>? portReadings))
+            {
+                portReadings = new(600);
+                recentReadings[port] = portReadings;
+            }
+
+            portReadings.Add(depth);
+
+            double? seaLevel;
+
+            if (portReadings.Items.Count() < 60)
+            {
+                //
+                //  Because the portReadings are an in memory collection, when the process
+                //  starts up there really isnt enough data to get a good reading.
+                //  So we wait 1 minute before trusting the data.
+                //
+                seaLevel = null;
+            }
+            else
+            {
+                seaLevel = portReadings.Items.Average();
+            }
+
+            BuoyPacket buoyPacket = new()
+            {
+                Port = port,
+                Depth = depth,
+                SeaLevel = seaLevel,
+            };
+
+            await _buoyPacketPublisher.Publish(buoyPacket);
         }
     }
 }

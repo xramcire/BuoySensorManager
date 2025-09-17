@@ -7,6 +7,7 @@
             <th>Port</th>
             <th>Buoy Name</th>
             <th>Depth</th>
+            <th>Sea Level</th>
             <th>Received On</th>
         </tr>
     </thead>
@@ -17,6 +18,7 @@
                 <td>@packet.Port</td>
                 <td>@packet.BuoyName</td>
                 <td>@packet.Depth.ToString("F1")</td>
+                <td>@(packet.SeaLevel?.ToString("F1") ?? "-")</td>
                 <td>@packet.ReadingOn</td>
             </tr>
         }

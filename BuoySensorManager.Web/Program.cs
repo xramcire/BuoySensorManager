@@ -1,5 +1,4 @@
 using BuoySensorManager.Services;
-using BuoySensorManager.Web.Data;
 
 namespace BuoySensorManager.Web
 {
@@ -13,7 +12,6 @@ namespace BuoySensorManager.Web
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
             builder.Services.AddServices();
-            builder.Services.AddSingleton<WeatherForecastService>();
 
             var app = builder.Build();
 

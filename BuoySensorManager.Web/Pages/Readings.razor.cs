@@ -34,6 +34,7 @@ namespace BuoySensorManager.Web.Pages
                 Port = buoyPacket.Port,
                 BuoyName = Config.GetBuoyName(buoyPacket.Port),
                 Depth = buoyPacket.Depth,
+                SeaLevel = buoyPacket.SeaLevel,
                 ReadingOn = new DateTime(buoyPacket.ReadingOn),
             };
 

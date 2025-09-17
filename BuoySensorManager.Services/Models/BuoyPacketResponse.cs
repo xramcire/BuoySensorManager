@@ -10,6 +10,8 @@
 
         public double Depth { get; init; }
 
+        public double? SeaLevel { get; init; }
+
         public DateTime ReadingOn { get; init; }
     }
 }
