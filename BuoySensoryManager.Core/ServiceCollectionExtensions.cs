@@ -1,5 +1,7 @@
 ﻿using BuoySensorManager.Core.Configuration;
+using BuoySensorManager.Core.Handlers;
 using BuoySensorManager.Core.Repositories;
+using Dapper;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 using SQLitePCL;
@@ -19,6 +21,10 @@ namespace BuoySensorManager.Core
             //  Batteries??? That is soo intuitive...
             //
             Batteries.Init();
+
+            SqlMapper.AddTypeHandler(new GuidHandler());
+            SqlMapper.RemoveTypeMap(typeof(Guid));
+            SqlMapper.RemoveTypeMap(typeof(Guid?));
 
             services.AddSingleton<IDbConnection>(sp =>
             {

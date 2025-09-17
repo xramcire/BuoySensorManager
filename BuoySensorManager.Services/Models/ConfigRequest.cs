@@ -14,15 +14,12 @@ namespace BuoySensorManager.Services.Models
         [Required, Range(4, 16)]
         public int BuoySensorEcbPortCount { get; set; }
 
-        [Required, Range(60, 1440)]
-        public int BuoyPacketPersistDuration { get; set; }
+        [Required, Range(5, 60)]
+        public int BuoyPacketPurgeInterval { get; set; }
 
         [Required, Range(5, 60)]
-        public int BuoyPacketEjectionInterval { get; set; }
+        public int BuoyPacketRetryInterval { get; set; }
 
-        //
-        //  Will need to be validated against BuoySensorEcbPortCount.
-        //
         public Dictionary<int, string> BuoyNames { get; set; } = [];
     }
 }

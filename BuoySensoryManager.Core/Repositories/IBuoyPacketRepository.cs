@@ -5,18 +5,28 @@ namespace BuoySensorManager.Core.Repositories
     public interface IBuoyPacketRepository
     {
         /// <summary>
-        /// Creates a new record.
+        /// Counts of all records.
         /// </summary>
-        Task<int> Create(BuoyPacket buoyPacket);
+        ValueTask<int> Count();
 
         /// <summary>
-        /// Eject old records.
+        /// Creates a new record.
         /// </summary>
-        Task<int> Eject(DateTime ejectOlderThan);
+        ValueTask<int> Create(BuoyPacket buoyPacket);
+
+        /// <summary>
+        /// Delete record.
+        /// </summary>
+        ValueTask<int> Delete(Guid id);
+
+        /// <summary>
+        /// Fetches the given number of records in revsere chronological order.
+        /// </summary>
+        ValueTask<IReadOnlyList<BuoyPacket>> Fetch(int limit);
 
         /// <summary>
         /// Creates the table if it does not already exist.
         /// </summary>
-        Task Initialize();
+        ValueTask Initialize();
     }
 }

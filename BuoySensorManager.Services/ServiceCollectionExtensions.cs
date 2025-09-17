@@ -15,10 +15,19 @@ namespace BuoySensorManager.Services
             services.AddCore();
             services.AddSingleton<IBuoySensorPacketDispatcher, BuoySensorPacketDispatcher>();
             services.AddSingleton<IConfigurationService, ConfigurationService>();
-            services.AddHostedService<BuoyPacketPurgeService>();
+            services.AddHostedService<BuoyPacketDatabaseService>();
             services.AddHostedService<BuoySensorReaderService>();
             services.AddHostedService<BuoyPacketSenderService>();
             services.AddHostedService<BuoyPacketRetryService>();
+
+            services.AddHttpClient();
+            //
+            //  Add an http client to connect to the home server.
+            //  TODO Add a constant somewhere...
+            //
+            services.AddHttpClient("BuoySensorServer", client => {
+                client.BaseAddress = new Uri("https://buoysensorserver.io");
+            });
             return services;
         }
     }

@@ -28,17 +28,10 @@
                 </div>
             </div>
             <div class="mb-3">
-                <label for="BuoyPacketPersistDuration" class="form-label">Buoy Reading Persist Duration</label>
-                <InputNumber class="form-control" @bind-Value="EditModel.BuoyPacketPersistDuration" placeholder="60" />
+                <label for="BuoyPacketEjectionInterval" class="form-label">Buoy Reading Purge Interval</label>
+                <InputNumber class="form-control" @bind-Value="EditModel.BuoyPacketPurgeInterval" placeholder="5" />
                 <div class="form-text">
-                    The lenght of time in minutes that buoy readings are persisted on the device. <code>Example: 60</code>
-                </div>
-            </div>
-            <div class="mb-3">
-                <label for="BuoyPacketEjectionInterval" class="form-label">Buoy Reading Ejection Interval</label>
-                <InputNumber class="form-control" @bind-Value="EditModel.BuoyPacketEjectionInterval" placeholder="5" />
-                <div class="form-text">
-                    The frequency of time in minutes that buoy readings are ejected from the device. <code>Example: 5</code>
+                    The frequency of time in minutes that buoy readings are purged from the device. <code>Example: 5</code>
                 </div>
             </div>
         </div>

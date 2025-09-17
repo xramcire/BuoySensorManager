@@ -23,16 +23,16 @@ namespace BuoySensorManager.Core.Configuration
         int BuoySensorEcbPortCount { get; set; }
 
         /// <summary>
-        /// The time in minutes to retain saved buoy packets.
-        /// Default is 60.
-        /// </summary>
-        int BuoyPacketPersistDuration { get; set; }
-
-        /// <summary>
-        /// The time in minutes to wait between buoy packet ejections.
+        /// The time in minutes to wait between buoy packet purges.
         /// Default is 5.
         /// </summary>
-        int BuoyPacketEjectionInterval { get; set; }
+        int BuoyPacketPurgeInterval { get; set; }
+
+        /// <summary>
+        /// The time in minutes to wait between buoy packet retries.
+        /// Default is 5.
+        /// </summary>
+        int BuoyPacketRetryInterval { get; set; }
 
         /// <summary>
         /// Sets the name of a buoy by its ECB port number.

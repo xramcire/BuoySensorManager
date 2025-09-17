@@ -20,8 +20,8 @@ namespace BuoySensorManager.Services.Services
                 BuoySensorEcbAddress = _config.BuoySensorEcbAddress.ToString(),
                 BuoySensorEcbPort = _config.BuoySensorEcbPort,
                 BuoySensorEcbPortCount = _config.BuoySensorEcbPortCount,
-                BuoyPacketEjectionInterval = _config.BuoyPacketEjectionInterval,
-                BuoyPacketPersistDuration = _config.BuoyPacketPersistDuration,
+                BuoyPacketPurgeInterval = _config.BuoyPacketPurgeInterval,
+                BuoyPacketRetryInterval = _config.BuoyPacketRetryInterval,
             };
 
             int count = _config.BuoySensorEcbPortCount;
@@ -42,9 +42,12 @@ namespace BuoySensorManager.Services.Services
             _config.BuoySensorEcbAddress = IPAddress.Parse(request.BuoySensorEcbAddress);
             _config.BuoySensorEcbPort = request.BuoySensorEcbPort;
             _config.BuoySensorEcbPortCount = request.BuoySensorEcbPortCount;
-            _config.BuoyPacketPersistDuration = request.BuoyPacketPersistDuration;
-            _config.BuoyPacketEjectionInterval = request.BuoyPacketEjectionInterval;
-
+            _config.BuoyPacketPurgeInterval = request.BuoyPacketPurgeInterval;
+            _config.BuoyPacketRetryInterval = request.BuoyPacketRetryInterval;
+            //
+            //  Given the dynamic nature of using a dictionary it was not possible to validate each buoy name.
+            //  If required add logic here...
+            //
             foreach (var kvp in request.BuoyNames)
             {
                 _config.SetBuoyName(kvp.Key, kvp.Value);

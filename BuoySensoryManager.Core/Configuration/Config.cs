@@ -59,33 +59,33 @@ namespace BuoySensorManager.Core.Configuration
             }
         }
 
-        private int? buoyPacketPersistDuration = null;
-        public int BuoyPacketPersistDuration
+        private int? buoyPacketPurgeInterval = null;
+        public int BuoyPacketPurgeInterval
         {
             get
             {
-                buoyPacketPersistDuration ??= _configuration.GetValue(nameof(BuoyPacketPersistDuration), 60);
-                return buoyPacketPersistDuration.Value;
+                buoyPacketPurgeInterval ??= _configuration.GetValue(nameof(BuoyPacketPurgeInterval), 5);
+                return buoyPacketPurgeInterval.Value;
             }
             set
             {
-                _configuration.SetValue(nameof(BuoyPacketPersistDuration), value);
-                buoyPacketPersistDuration = value;
+                _configuration.SetValue(nameof(BuoyPacketPurgeInterval), value);
+                buoyPacketPurgeInterval = value;
             }
         }
 
-        private int? buoyPacketEjectionInterval = null;
-        public int BuoyPacketEjectionInterval
+        private int? buoyPacketRetryInterval = null;
+        public int BuoyPacketRetryInterval
         {
             get
             {
-                buoyPacketEjectionInterval ??= _configuration.GetValue(nameof(BuoyPacketEjectionInterval), 5);
-                return buoyPacketEjectionInterval.Value;
+                buoyPacketRetryInterval ??= _configuration.GetValue(nameof(BuoyPacketRetryInterval), 5);
+                return buoyPacketRetryInterval.Value;
             }
             set
             {
-                _configuration.SetValue(nameof(BuoyPacketEjectionInterval), value);
-                buoyPacketEjectionInterval = value;
+                _configuration.SetValue(nameof(BuoyPacketRetryInterval), value);
+                buoyPacketRetryInterval = value;
             }
         }
 

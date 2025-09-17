@@ -32,29 +32,7 @@ namespace BuoySensorManager.Services.Services
             {
                 try
                 {
-                    using (var client = new TcpClient())
-                    {
-                        client.Connect(_config.BuoySensorEcbAddress, _config.BuoySensorEcbPort);
-
-                        using (NetworkStream stream = client.GetStream())
-                        {
-                            var readings = ReceiveReadings(stream);
-                            //
-                            //  The readings are arranged in order by port number.
-                            //
-                            for (int port = 0; port < readings.Length; port++)
-                            {
-                                double depth = readings[port];
-
-                                if (double.IsNaN(depth))
-                                {
-                                    continue;
-                                }
-
-                                await HandingReading(port, depth);
-                            }
-                        }
-                    }
+                    await GetReadings();
                 }
                 catch (Exception ex)
                 {
@@ -62,6 +40,33 @@ namespace BuoySensorManager.Services.Services
                 }
 
                 await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
+            }
+        }
+
+        private async ValueTask GetReadings()
+        {
+            using (var client = new TcpClient())
+            {
+                client.Connect(_config.BuoySensorEcbAddress, _config.BuoySensorEcbPort);
+
+                using (NetworkStream stream = client.GetStream())
+                {
+                    var readings = ReceiveReadings(stream);
+                    //
+                    //  The readings are arranged in order by port number.
+                    //
+                    for (int port = 0; port < readings.Length; port++)
+                    {
+                        double depth = readings[port];
+
+                        if (double.IsNaN(depth))
+                        {
+                            continue;
+                        }
+
+                        await HandingReading(port, depth);
+                    }
+                }
             }
         }
 
@@ -85,8 +90,11 @@ namespace BuoySensorManager.Services.Services
         /// </summary>
         private readonly ConcurrentDictionary<int, FixedQueue<double>> recentReadings = [];
 
-        private async Task HandingReading(int port, double depth)
+        private async ValueTask HandingReading(int port, double depth)
         {
+            //
+            //  TODO: Consider processing and publishing readings from all ports at once.
+            //
             if (!recentReadings.TryGetValue(port, out FixedQueue<double>? portReadings))
             {
                 portReadings = new(600);

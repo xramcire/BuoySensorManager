@@ -13,23 +13,15 @@ namespace BuoySensorManager.Core.Repositories
         }
 
         protected Task<int> ExecuteAsync(string query)
-        {
-            return _connection.ExecuteAsync(query);
-        }
+            => _connection.ExecuteAsync(query);
 
         protected Task<int> ExecuteAsync(string query, object param)
-        {
-            return _connection.ExecuteAsync(query, param);
-        }
+            => _connection.ExecuteAsync(query, param);
 
-        protected IDataReader ExecuteReader(string query)
-        {
-            return _connection.ExecuteReader(query);
-        }
+        protected Task<IEnumerable<T>> QueryAsync<T>(string query, object param)
+            => _connection.QueryAsync<T>(query, param);
 
-        protected object? ExecuteScalar(string query)
-        {
-            return _connection.ExecuteScalar(query);
-        }
+        protected Task<object?> ExecuteScalarAsync(string query)
+            => _connection.ExecuteScalarAsync(query);
     }
 }
